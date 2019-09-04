@@ -99,7 +99,7 @@ class SOQLGrammar extends Grammar
 
 			$strQuery = "select $columns from {$table_p} ";
 			Arr::forget($join->wheres, 0);
-			
+
 			if ($join->wheres) $strQuery .= $this->compileWheres($join);
 
 			$strQuery = trim(", ($strQuery)");
@@ -163,5 +163,17 @@ class SOQLGrammar extends Grammar
     protected function whereNotNull(Builder $query, $where)
     {
         return $this->wrap($where['column']).' <> null';
+    }
+
+	/**
+     * Compile a "where null" clause.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  array  $where
+     * @return string
+     */
+    protected function whereNull(Builder $query, $where)
+    {
+        return $this->wrap($where['column']).' = null';
     }
 }
